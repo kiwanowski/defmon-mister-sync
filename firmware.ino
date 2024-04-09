@@ -5,6 +5,12 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 const int startPin = 25;
 const int clockPin = 26;
 
+int startState;
+int clockState;
+
+int startLatch;
+int clockLatch;
+
 void setup() {
   pinMode(startPin, INPUT);
   pinMode(clockPin, INPUT);
@@ -16,19 +22,21 @@ void loop() {
   clockState = digitalRead(clockPin);
 
   if (startState == HIGH) {
-
-    MIDI.sendStart();
-
-    if (clockState == HIGH) {
-
-      MIDI.sendClock();
-
+    if (startLatch == LOW) {
+      MIDI.sendStart();
+      startLatch = HIGH;
     }
 
-  } else {
-
+    if (clockState == HIGH) {
+      if (clockLatch == LOW) {
+        MIDI.sendClock();
+        clockLatch = HIGH;
+      }
+    } else if (clockLatch == HIGH) {
+      clockLatch = LOW;
+    }
+  } else if (startLatch == HIGH) {
     MIDI.sendStop();
-
+    startLatch = LOW;
   }
-
 }
