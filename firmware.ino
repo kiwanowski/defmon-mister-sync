@@ -39,4 +39,6 @@ void loop() {
     MIDI.sendStop();
     startLatch = LOW;
   }
+
+  delay(1);
 }
