@@ -8,8 +8,8 @@ const int clockPin = 26;
 int startState;
 int clockState;
 
-int startLatch;
-int clockLatch;
+int startLatch = LOW;
+int clockLatch = LOW;
 
 void setup() {
   pinMode(startPin, INPUT);
