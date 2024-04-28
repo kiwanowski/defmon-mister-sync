@@ -1,9 +1,9 @@
 #include <MIDI.h>
 
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
+MIDI_CREATE_DEFAULT_INSTANCE();
 
-const int startPin = 25;
-const int clockPin = 26;
+const int startPin = 26;
+const int clockPin = 25;
 
 int startState;
 int clockState;
@@ -39,6 +39,4 @@ void loop() {
     MIDI.sendStop();
     startLatch = LOW;
   }
-
-  delay(1);
 }
