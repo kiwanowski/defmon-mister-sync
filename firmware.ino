@@ -1,6 +1,6 @@
 #include <MIDI.h>
 
-MIDI_CREATE_DEFAULT_INSTANCE();
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial, MIDI);
 
 const int startPin = 26;
 const int clockPin = 25;
