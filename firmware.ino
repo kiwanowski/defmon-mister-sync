@@ -21,22 +21,18 @@ void loop() {
   startState = digitalRead(startPin);
   clockState = digitalRead(clockPin);
 
-  if (startState == HIGH) {
-    if (startLatch == LOW) {
-      MIDI.sendStart();
-      startLatch = HIGH;
-    }
-
-    if (clockState == HIGH) {
-      if (clockLatch == LOW) {
-        MIDI.sendClock();
-        clockLatch = HIGH;
-      }
-    } else if (clockLatch == HIGH) {
-      clockLatch = LOW;
-    }
-  } else if (startLatch == HIGH) {
+  if (startState == HIGH && startLatch == LOW) {
+    MIDI.sendStart();
+    startLatch = HIGH;
+  } else if (startState == LOW && startLatch == HIGH) {
     MIDI.sendStop();
     startLatch = LOW;
+  }
+
+  if (startState == HIGH && clockState == HIGH && clockLatch == LOW) {
+    MIDI.sendClock();
+    clockLatch = HIGH;
+  } else if (clockState == LOW && clockLatch == HIGH) {
+    clockLatch = LOW;
   }
 }
